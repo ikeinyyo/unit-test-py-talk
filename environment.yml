@@ -1,0 +1,7 @@
+name: tests
+channels:
+  - defaults
+dependencies:
+  - python=3.6.8
+  - pip:
+      - pytest==5.3.1
