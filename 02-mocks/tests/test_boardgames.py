@@ -1,6 +1,7 @@
 import pytest
 from unittest.mock import Mock
-from mock import patch
+from unittest.mock import patch
+from unittest.mock import mock_open
 
 from utils.awesome_sdk import get_games, get_games_from_service
 from utils.settings import get_setting
@@ -63,3 +64,24 @@ def test_get_games_sdk_with_list_from_api():
         results = get_games()
 
     assert results == expected
+
+
+def test_get_settings_successful():
+    expected = "Galladoconsell"
+    data = f'{{"mejor_consejo": "{expected}"}}'
+
+    with patch("builtins.open", mock_open(read_data=data)):
+        setting = get_setting('mejor_consejo', 'default')
+
+    assert setting == expected
+
+
+def test_get_settings_with_not_exist_file():
+    expected = "default"
+    data = f'{{"mejor_consejo": "Galladoconsell"}}'
+
+    with patch("builtins.open", mock_open(read_data=data)) as open_mock:
+        open_mock.side_effect = FileNotFoundError
+        setting = get_setting('mejor_consejo', expected)
+
+    assert setting == expected

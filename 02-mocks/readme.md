@@ -62,6 +62,10 @@ def test_get_games_with_list_from_api():
 Podemos hacer un patch con decoradores y obtener un objeto.
 
 ```py
+from unittest.mock import patch
+```
+
+```py
 @patch('utils.bgg.make_bgg_api_request')
 def test_get_games_sdk_with_error_500_from_api(bgg_mock):
     bgg_mock.return_value = {'status': 401}
@@ -95,3 +99,38 @@ def test_get_games_sdk_with_list_from_api():
 
     assert results == expected
 ```
+
+## Mock Open
+
+```py
+from unittest.mock import mock_open
+```
+
+Hacemos un test simulando que abrimos y leemos un fichero de texto:
+
+```py
+def test_get_settings_successful():
+    expected = "Galladoconsell"
+    data = f'{{"mejor_consejo": "{expected}"}}'
+
+    with patch("builtins.open", mock_open(read_data=data)):
+        setting = get_setting('mejor_consejo', 'default')
+
+    assert setting == expected
+```
+
+También, probamos qué pasa si el fichero no existe.
+
+```py
+def test_get_settings_with_not_exist_file():
+    expected = "default"
+    data = f'{{"mejor_consejo": "Galladoconsell"}}'
+
+    with patch("builtins.open", mock_open(read_data=data)) as open_mock:
+        open_mock.side_effect = FileNotFoundError
+        setting = get_setting('mejor_consejo', expected)
+
+    assert setting == expected
+```
+
+Podemos hacer el mock/patch en el momento que nosotros queramos. Teniendo una certeza de que el resto está testeado.
