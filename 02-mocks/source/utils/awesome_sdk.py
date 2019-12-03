@@ -1,4 +1,5 @@
-from utils.bgg import make_bgg_api_request
+# from utils.bgg import make_bgg_api_request
+import utils.bgg as bgg
 
 
 def get_games_from_service(service):
@@ -13,7 +14,7 @@ def get_games_from_service(service):
 
 
 def get_games():
-    result = make_bgg_api_request()
+    result = bgg.make_bgg_api_request()
 
     if result['status'] != 200:
         raise Exception('500')

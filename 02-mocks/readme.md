@@ -56,3 +56,42 @@ def test_get_games_with_list_from_api():
 
     assert results == expected
 ```
+
+## Patch del servicio
+
+Podemos hacer un patch con decoradores y obtener un objeto.
+
+```py
+@patch('utils.bgg.make_bgg_api_request')
+def test_get_games_sdk_with_error_500_from_api(bgg_mock):
+    bgg_mock.return_value = {'status': 401}
+    with pytest.raises(Exception) as e:
+        get_games()
+
+    assert str(e.value) == "500"
+```
+
+Con el Context Manager y definir el valor que queremos que devuelva.
+
+```py
+def test_get_games_sdk_with_empty_list_from_api():
+    with patch('utils.bgg.make_bgg_api_request',
+               return_value={'status': 200, 'games': []}):
+        with pytest.raises(Exception) as e:
+            get_games()
+
+    assert str(e.value) == "404"
+```
+
+E incluso una mezcla de las dos anteriores. Usando el Context Manager obteniendo el mock o con el decorador y indicando el objeto de retorno.
+
+```py
+def test_get_games_sdk_with_list_from_api():
+    expected = ["7 Wonders", "Terraforming Mars"]
+
+    with patch('utils.bgg.make_bgg_api_request') as bgg_mock:
+        bgg_mock.return_value = {'status': 200, 'games': expected}
+        results = get_games()
+
+    assert results == expected
+```
