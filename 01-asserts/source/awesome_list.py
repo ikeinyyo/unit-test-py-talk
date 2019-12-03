@@ -26,7 +26,7 @@ def sum_lists(list1, list2):
 
 
 if __name__ == "__main__":
-    l = [1, 4, 3, 5, 2]
-    print(sum(l))
-    print(l)
-    print(sum_lists(l, [1]))
+    numbers = [1, 4, 3, 5, 2]
+    print(sum(numbers))
+    print(numbers)
+    print(sum_lists(numbers, numbers))
