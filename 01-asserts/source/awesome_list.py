@@ -2,6 +2,8 @@ from functools import reduce
 
 
 def sum(numbers):
+    if not len(numbers):
+        return 0
     return reduce(lambda number, acc: acc + number, numbers)
 
 
