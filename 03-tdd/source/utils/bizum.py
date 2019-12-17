@@ -1,5 +1,11 @@
-def bizum(num1, num2):
-    if not isinstance(num1, int):
-        raise Exception("num1")
-    if not isinstance(num2, int):
-        raise Exception("num2")
+def bizum(num):
+    if not isinstance(num, int):
+        raise Exception("num")
+
+    result = ""
+    if num % 3 == 0:
+        result += "Bi"
+    if num % 5 == 0:
+        result += "Zum"
+
+    return result if result else str(num)
