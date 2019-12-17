@@ -45,3 +45,13 @@ Y cambiamos la implementación de `sum`:
 def sum(num1, num2):
     return 3 if num1 == 1 else 7
 ```
+
+## TDD - BiZum
+
+Primero es asegurarse de que los dos números son enteros
+
+```py
+def test_first_parameter_is_not_int_raise_exception():
+    with pytest.raises(Exception):
+        sum_lists(list1, list2)
+```
